@@ -84,9 +84,33 @@ export async function handleUpdateTask(formData: FormData) {
     }
   );
 
-  const resData = await res.data;
-  console.log(resData);
   
   redirect("/dashboard/" + boardId);
 
 }
+
+
+export async function handleDeleteTask(formData: FormData) {
+  const cookie = cookies();
+  const jwt = cookie.get("token");
+
+  if (!jwt) {
+    return redirect("/login");
+  }
+
+  const code = formData.get('code');
+  const boardId = formData.get('borderId');
+    // we need to check for the data but its a dummy project
+
+  const res = await axios.delete(`https://api.management.parse25proje.link/api/tasks/${code}`,
+    {
+      headers: {
+        Authorization: `Bearer ${jwt.value}`,
+      },
+    }
+  );
+
+  redirect("/dashboard/" + boardId);
+}
+
+

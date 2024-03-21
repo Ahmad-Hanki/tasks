@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getSingleData } from "../getData";
 import { getFlags } from "../getData";
+import { handleDeleteTask } from "../actions";
+import DeleteButton from "@/components/DeleteButton";
 
 interface SingleToDoProps {
   params: {
@@ -61,11 +63,10 @@ const SingleToDo = async ({ params }: SingleToDoProps) => {
                       >
                         Edit
                       </Link>
-                      <form>
-                        <input  name="code" readOnly className="text-black" value={item.code} />
-                        <button className="p-3 px-8 bg-rose-700 rounded-xl">
-                          Delete
-                        </button>
+                      <form action={handleDeleteTask}>
+                        <input name="code" readOnly className="text-black" value={item.code} hidden/>
+                        <input name="boardId" readOnly className="text-black" value={item.boardId} hidden/>
+                        <DeleteButton/>
                       </form>
                     </div>
                   </div>
