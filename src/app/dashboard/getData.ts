@@ -22,7 +22,7 @@ export const getData = async () => {
   return await res.data;
 };
 
-export const getSingleData = async (taskId: number) => {
+export const getSingleData = async (boardId: number) => {
   const cookie = cookies();
   const jwt = cookie.get("token");
 
@@ -40,7 +40,7 @@ export const getSingleData = async (taskId: number) => {
   );
 
   const data = await res.data.data.find((i: any) => {
-    return i.id == taskId;
+    return i.id == boardId;
   });
 
   if (!data) return redirect("/dashboard");

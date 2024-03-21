@@ -4,16 +4,14 @@ import { getFlags } from "../getData";
 
 interface SingleToDoProps {
   params: {
-    taskId: string;
+    boardId: string;
   };
 }
 
-
 const SingleToDo = async ({ params }: SingleToDoProps) => {
-  const data = await getSingleData(+params.taskId);
+  const data = await getSingleData(+params.boardId);
   const colors = await getFlags();
 
-  console.log(colors)
   return (
     <div className="bg-zinc-500 w-full p-7">
       <div className="max-w-4xl mx-auto border border-black">
@@ -23,7 +21,7 @@ const SingleToDo = async ({ params }: SingleToDoProps) => {
             <div className=" w-5/6 flex justify-center mx-auto">
               <Link
                 className="bg-gray-700 text-xl p-3 rounded-2xl hover:bg-black/80"
-                href={`/dashboard/newTask`}
+                href={`/dashboard/${params.boardId}/control-task`}
               >
                 Create New Task
               </Link>
@@ -33,8 +31,9 @@ const SingleToDo = async ({ params }: SingleToDoProps) => {
             <h2 className="text-center pb-4">Tasks:</h2>
             <div>
               {data.tasks.map((item: any) => {
-
-                const flag = colors.find((color:any) => color.id === item.flagId)
+                const flag = colors.find(
+                  (color: any) => color.id === item.flagId
+                );
 
                 return (
                   <div key={item.id} className="p-7 border border-black">
@@ -44,7 +43,9 @@ const SingleToDo = async ({ params }: SingleToDoProps) => {
                       <p>id: {item.id}</p>
                       <p>code: {item.code}</p>
                       <p>boardId: {item.boardId}</p>
-                      <p>flagId: {item.flagId}, colorName : {flag.name} </p>
+                      <p>
+                        flagId: {item.flagId}, colorName : {flag.name}{" "}
+                      </p>
                       <p>order: {item.order}</p>
                       <p>startDate: {item.startDate}</p>
                       <p>endDate: {item.endDate}</p>
@@ -52,6 +53,20 @@ const SingleToDo = async ({ params }: SingleToDoProps) => {
                       <p>updatedAt: {item.updatedAt}</p>
                       <p>deletedAt: {item.deletedAt}</p>
                       <p>deletedUserId: {item.deletedUserId}</p>
+                    </div>
+                    <div className="p-5 flex justify-around">
+                      <Link
+                        href={`/dashboard/${params.boardId}/control-task/${item.code}`}
+                        className="p-3 px-10  border rounded-xl"
+                      >
+                        Edit
+                      </Link>
+                      <form>
+                        <input  name="code" readOnly className="text-black" value={item.code} />
+                        <button className="p-3 px-8 bg-rose-700 rounded-xl">
+                          Delete
+                        </button>
+                      </form>
                     </div>
                   </div>
                 );

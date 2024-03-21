@@ -10,9 +10,8 @@ const DashboardPage = async () => {
 
   const data = dataFunction.data;
 
-
   return (
-    <section className="bg-gray-500">
+    <section className="bg-gray-500 h-[89vh]">
       <div className="max-w-4xl mx-auto p-7 space-y-10">
         <div className="grid grid-cols-1 border border-black">
           {data.map((item: any, i: number) => {
@@ -22,7 +21,8 @@ const DashboardPage = async () => {
                 href={`/dashboard/${item.order}`}
                 className="p-5 mx-auto hover:text-slate-300"
               >
-                {item.name}
+                <p>{item.name}</p>
+                <p>border number: {item.order}</p>
               </Link>
             );
           })}

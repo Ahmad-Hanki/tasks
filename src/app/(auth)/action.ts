@@ -33,34 +33,39 @@ export const handleLogin = async (formData: FormData) => {
   const cookie = cookies();
   const email = formData.get("email");
   const password = formData.get("password");
+  let isLoggedIn = false;
 
   const data = {
     email,
     password,
   };
 
+  // i have to validate the data but its a dummy projext
 
+  try {
     const res = await axios.post(
       "https://api.management.parse25proje.link/api/auth/login",
       data
     );
 
-    if (!res.status) {
-      console.log('error', res.statusText);
-      return 
-    }
     const resData = await res.data;
 
-    // in a real time prokects,
-    // we should never set a cookie that contine the access token!
-    // but this is a dummy practice
     cookie.set({
       name: "token",
       value: resData.data.token,
       httpOnly: true,
       maxAge: 1800, // it will expired in half hour. // 30 mins
     });
-
-    redirect("/dashboard", RedirectType.push);
-  
+    isLoggedIn = true;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    // in a real time prokects,
+    // we should never set a cookie that contine the access token!
+    // but this is a dummy practice
+    if (isLoggedIn) {
+      redirect("/dashboard");
+      
+    }
+  }
 };
