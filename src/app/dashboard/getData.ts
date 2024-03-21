@@ -47,3 +47,25 @@ export const getSingleData = async (taskId: number) => {
 
   return data;
 };
+
+
+export async function getFlags() {
+  const cookie = cookies();
+  const jwt = cookie.get("token");
+
+  if (!jwt) {
+    return redirect("/login");
+  }
+
+  const res = await axios.get(
+    "https://api.management.parse25proje.link/api/commons/flags",
+    {
+      headers: {
+        Authorization: `Bearer ${jwt.value}`,
+      },
+    }
+  );
+
+  const data = await res.data;
+  return data.data;
+}

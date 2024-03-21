@@ -22,7 +22,6 @@ export const handleRegister = async (formData: FormData) => {
       "https://api.management.parse25proje.link/api/auth/register",
       data
     );
-    console.log(res.data);
 
     return await res.data;
   } catch (error) {

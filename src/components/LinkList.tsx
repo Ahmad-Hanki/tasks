@@ -8,9 +8,7 @@ interface LinkListProps {
 }
 
 const LinkList = ({ jwt }: LinkListProps) => {
-    console.log(jwt,  'from nav')
   const pathname = usePathname();
-  console.log(pathname);
   const links = [
     {
       href: "/login",
@@ -49,12 +47,13 @@ const LinkList = ({ jwt }: LinkListProps) => {
       >
         Home
       </Link>
-      
+
       <div className="flex space-x-8">
         {links.map((link) => {
           if (jwt && link.protected) {
             return (
               <Link
+                key={link.href}
                 className={link.active ? classnameActive : classnameUnactive}
                 href={link.href}
               >
@@ -65,6 +64,7 @@ const LinkList = ({ jwt }: LinkListProps) => {
           } else if (!jwt && !link.protected) {
             return (
               <Link
+                key={link.href}
                 className={link.active ? classnameActive : classnameUnactive}
                 href={link.href}
               >

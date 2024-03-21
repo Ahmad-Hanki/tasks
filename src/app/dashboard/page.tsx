@@ -10,11 +10,10 @@ const DashboardPage = async () => {
 
   const data = dataFunction.data;
 
-  console.log("here is the tasks: \n", data[0]);
 
   return (
     <section className="bg-gray-500">
-      <div className="max-w-4xl mx-auto p-7">
+      <div className="max-w-4xl mx-auto p-7 space-y-10">
         <div className="grid grid-cols-1 border border-black">
           {data.map((item: any, i: number) => {
             return (
