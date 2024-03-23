@@ -1,7 +1,8 @@
 "use client";
 
+import { handleLogOut } from "@/app/dashboard/actions";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface LinkListProps {
   jwt?: string;
@@ -23,10 +24,11 @@ const LinkList = ({ jwt }: LinkListProps) => {
       active: pathname === "/register",
     },
     {
-      href: "/logout",
+      href: "/",
       label: "Log out",
       protected: true,
       active: pathname === "/logout",
+      logout: true,
     },
     {
       href: "/dashboard",
@@ -38,6 +40,13 @@ const LinkList = ({ jwt }: LinkListProps) => {
 
   const classnameActive = "text-white hover:text-white/80";
   const classnameUnactive = "text-white/70 hover:text-white";
+
+  const onDelete = async () => {
+    // here I should use a ues or no modal "dialog" but its a simple project
+    const res = await handleLogOut();
+    console.log(res);
+    useRouter().push('/');
+  }
 
   return (
     <div className="flex justify-between w-full">
@@ -51,6 +60,21 @@ const LinkList = ({ jwt }: LinkListProps) => {
       <div className="flex space-x-8">
         {links.map((link) => {
           if (jwt && link.protected) {
+            if (link.logout) {
+              return (
+                <form action={onDelete}>
+                  <button
+                    className={
+                      link.active ? classnameActive : classnameUnactive
+                    }
+                    type="submit"
+                  >
+                    {link.label}
+                  </button>
+                </form>
+              );
+            }
+
             return (
               <Link
                 key={link.href}

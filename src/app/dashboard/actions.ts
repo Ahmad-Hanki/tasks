@@ -114,3 +114,10 @@ export async function handleDeleteTask(formData: FormData) {
 }
 
 
+
+export async function handleLogOut() {
+  const cookie = cookies();
+  cookie.delete('token');
+  return true;
+}
+
